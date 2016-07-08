@@ -172,7 +172,6 @@ class bareos::director {
     'DefaultJob':
       use_as_def      => true,
       level           => 'Incremental',
-      client          => $::bareos::client_name,
       fileset         => 'SelfTest',
       job_schedule    => 'WeeklyCycle',
       storage         => $::bareos::storage_name,
@@ -185,6 +184,7 @@ class bareos::director {
       jobdef          => 'DefaultJob',
       level           => 'Full',
       fileset         => 'Catalog',
+      client          => $::bareos::client_name,
       job_schedule    => 'WeeklyCycleAfterBackup',
       run_before_job  => '/usr/lib/bareos/scripts/make_catalog_backup.pl MyCatalog',
       run_after_job   => '/usr/lib/bareos/scripts/delete_catalog_backup',
