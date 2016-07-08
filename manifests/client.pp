@@ -133,5 +133,11 @@ class bareos::client {
     }
   }
 
-
+  @@bareos::director::client {
+    $::bareos::client_name:
+      port     => $::bareos::client_port,
+      password => $real_client_password,
+      address  => $::bareos::client_address,
+      catalog  => $::bareos::default_catalog,
+  }
 }
