@@ -40,36 +40,19 @@ class bareos::database {
 
     case $bareos::database_backend {
       'mysql': {
-        require mysql::client
 
-        $grant_query = "use mysql
-          grant all privileges
-            on ${bareos::database_name}.*
-            to ${bareos::database_user}@localhost
-            ${bareos::database_password};
-          grant all privileges
-            on ${bareos::database_name}.*
-            to ${bareos::database_user}@\"%\"
-            ${bareos::database_password};
-          flush privileges;"
-
-        $notify_create_db = $bareos::manage_database ? {
-          true  => Exec['create_db_and_tables'],
-          false => undef,
+        class  { 'mysql::server':
+          root_password           => $real_db_password,
+          remove_default_accounts => true,
         }
 
-        $require_classes = defined(Class['mysql::client']) ? {
-          true  => Class['mysql::client'],
-          false => undef,
+        mysql::db { $::bareos::database_name:
+          user     => $::bareos::database_user,
+          password => $real_db_password,
+          host     => $::fqdn,
+          notify   => Exec['create_db_and_tables'],
         }
-
-        mysql::query { 'grant_bareos_user_privileges':
-          mysql_query => $grant_query,
-          mysql_db    => undef,
-          mysql_host  => $bareos::database_host,
-          notify      => $notify_create_db,
-          require     => $require_classes,
-        }
+        
       }
       'sqlite': {
         sqlite::db { $bareos::database_name:
