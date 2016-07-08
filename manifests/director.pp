@@ -161,5 +161,10 @@ class bareos::director {
     }
   }
 
+  bareos::director::messages {
+    [ 'Standard', 'Daemon' ]:
+      mail_command => '/usr/bin/bsmtp',
+      mail_to      => 'root@localhost',
+      mail_from    => 'bareos@localhost',
+  }
 }
-
