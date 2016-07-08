@@ -53,7 +53,7 @@ class bareos::params {
 
   # This values can be set in various resources. These defaults can be used to avoid repetition
   $default_catalog = ''
-  $default_messages = 'standard'
+  $default_messages = 'Daemon'
   $default_file_retention = ''
   $default_job_retention  = ''
   $default_jobdef = ''
