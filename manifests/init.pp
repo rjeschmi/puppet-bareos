@@ -124,6 +124,7 @@ class bareos (
   $schedules               = {},
   $storages                = {},
 
+  $storage_devices         = {},
   ) inherits bareos::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -317,4 +318,5 @@ class bareos (
   create_resources('bareos::director::pool', $pools)
   create_resources('bareos::director::schedule', $schedules)
   create_resources('bareos::director::storage', $storages)
+  create_resources('bareos::storage::device', $storage_devices)
 }
