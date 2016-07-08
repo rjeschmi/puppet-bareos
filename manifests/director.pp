@@ -213,13 +213,13 @@ class bareos::director {
   bareos::director::schedule {
     'WeeklyCycle':
       run_spec => [
-        'Full 1st sat at 21:00',
-        'Differential 2nd-5th sat at 21:00',
-        'Incremental mon-fri at 21:00',
+        ['Full', '1st sat', '21:00'],
+        ['Differential', '2nd-5th sat', '21:00'],
+        ['Incremental', 'mon-fri', '21:00'],
       ];
     'WeeklyCycleAfterBackup':
       run_spec => [
-        'Full mon-fri at 21:10',
+        ['Full', 'mon-fri', '21:10'],
       ];
   }
 
