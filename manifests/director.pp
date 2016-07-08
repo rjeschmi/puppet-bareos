@@ -167,4 +167,69 @@ class bareos::director {
       mail_to      => 'root@localhost',
       mail_from    => 'bareos@localhost',
   }
+
+  bareos::director::job {
+    'DefaultJob':
+      use_as_def      => true,
+      level           => 'Incremental',
+      client          => $::bareos::director_name,
+      fileset         => 'SelfTest',
+      job_schedule    => 'WeeklyCycle',
+      storage         => $::bareos::storage_name,
+      messages        => 'Standard',
+      pool            => 'Default',
+      priority        => '10',
+      write_bootstrap => '/var/lib/bareos/%c.bsr';
+
+    'BackupCatalog':
+      jobdef          => 'DefaultJob',
+      level           => 'Full',
+      fileset         => 'Catalog',
+      job_schedule    => 'WeeklyCycleAfterBackup',
+      run_before_job  => '/usr/lib/bareos/scripts/make_catalog_backup.pl MyCatalog',
+      run_after_job   => '/usr/lib/bareos/scripts/delete_catalog_backup',
+      write_bootstrap => "|/usr/bin/bsmtp -h localhost -f \"\(Bareos\) \" -s \"Bootstrap for Job %j\" root@localhost",
+      priority        => '11';
+
+    # Standard Restore template, to be changed by Console program
+    #  Only one such job is needed for all Jobs/Clients/Storage ...
+    'RestoreFiles':
+      type     => 'Restore',
+      fileset  => 'SelfTest',
+      storage  => $::bareos::storage_name,
+      client   => $::bareos::director_name,
+      pool     => 'Default',
+      messages => 'Standard',
+      where    => '/tmp/bareos-restores';
+  }
+
+  bareos::director::fileset {
+    'SelfTest':
+      include => [ '/usr/sbin' ];
+    'Catalog':
+      include => [ '/var/lib/bareos/bareos.sql', '/etc/bareos' ];
+  }
+
+  bareos::director::schedule {
+    'WeeklyCycle':
+      run_spec => [
+        'Full 1st sat at 21:00',
+        'Differential 2nd-5th sat at 21:00',
+        'Incremental mon-fri at 21:00',
+      ];
+    'WeeklyCycleAfterBackup':
+      run_spec => [
+        'Full mon-fri at 21:10',
+      ];
+  }
+
+  Bareos::Director::Client <<| |>>
+
+  bareos::director::storage { $::bareos::storage_name:
+    device     => 'FileStorage',
+    media_type => 'File',
+    address    => $::bareos::storage_address,
+    password   => $::bareos::storage_password,
+    sd_port    => $::bareos::storage_port,
+  }
 }
