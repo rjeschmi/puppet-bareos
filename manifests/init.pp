@@ -112,7 +112,18 @@ class bareos (
   $firewall_dst            = params_lookup( 'firewall_dst' , 'global' ),
   $debug                   = params_lookup( 'debug' , 'global' ),
   $audit_only              = params_lookup( 'audit_only' , 'global' ),
-  $noops                   = params_lookup( 'noops' )
+  $noops                   = params_lookup( 'noops' ),
+
+  # Parameterized definitions for hiera
+  $catalogs                = {},
+  $clients                 = {},
+  $filesets                = {},
+  $jobs                    = {},
+  $messages                = {},
+  $pools                   = {},
+  $schedules               = {},
+  $storages                = {},
+
   ) inherits bareos::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -296,4 +307,14 @@ class bareos (
   if $bareos::my_class {
     include $bareos::my_class
   }
+
+  # Parameterized definitions for hiera
+  create_resources('bareos::director::catalog', $catalogs)
+  create_resources('bareos::director::client', $clients)
+  create_resources('bareos::director::fileset', $filesets)
+  create_resources('bareos::director::job', $jobs)
+  create_resources('bareos::director::message', $messages)
+  create_resources('bareos::director::pool', $pools)
+  create_resources('bareos::director::schedule', $schedules)
+  create_resources('bareos::director::storage', $storages)
 }
