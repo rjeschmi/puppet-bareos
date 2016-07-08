@@ -232,4 +232,6 @@ class bareos::director {
     password   => $::bareos::storage_password,
     sd_port    => $::bareos::storage_port,
   }
+
+  bareos::director::catalog { 'MyCatalog': }
 }
