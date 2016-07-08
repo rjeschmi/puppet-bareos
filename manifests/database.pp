@@ -44,7 +44,7 @@ class bareos::database {
         mysql::db { $::bareos::database_name:
           user     => $::bareos::database_user,
           password => $real_db_password,
-          host     => $::fqdn,
+          host     => 'localhost',
           notify   => Exec['create_db_and_tables'],
         }
 
