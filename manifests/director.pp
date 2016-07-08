@@ -43,6 +43,8 @@ class bareos::director {
       require => Package[$bareos::director_package],
       audit   => $bareos::manage_audit,
       noop    => $bareos::noops,
+      recurse => true,
+      purge   => true,
     }
   }
 
@@ -66,6 +68,8 @@ class bareos::director {
       require => Package[$bareos::director_package],
       audit   => $bareos::manage_audit,
       noop    => $bareos::noops,
+      recurse => true,
+      purge   => true,
     }
   }
 
