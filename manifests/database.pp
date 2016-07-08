@@ -27,14 +27,9 @@ class bareos::database {
 
     $script_directory = '/usr/lib/bareos/scripts'
 
-    $db_parameters = $bareos::database_backend ? {
-      'sqlite' => '',
-      'mysql'  => "--host=${bareos::database_host} --user=${bareos::database_user} --password=${real_db_password} --port=${bareos::database_port} --database=${bareos::database_name}",
-    }
-
     exec { 'create_db_and_tables':
-      command     => "${script_directory}/create_${bareos::database_backend}_database;
-                      ${script_directory}/make_${bareos::database_backend}_tables ${db_parameters}",
+      command     => "${script_directory}/create_bareos_database ${bareos::database_backend};
+                      ${script_directory}/make_bareos_tables ${bareos::database_backend}",
       refreshonly => true,
     }
 
@@ -52,7 +47,7 @@ class bareos::database {
           host     => $::fqdn,
           notify   => Exec['create_db_and_tables'],
         }
-        
+
       }
       'sqlite': {
         sqlite::db { $bareos::database_name:
