@@ -27,18 +27,11 @@ class bareos::repository inherits bareos {
         }
 
         'Debian','Ubuntu': {
-          file { '/etc/apt/sources.list.d/bareos.list':
-            content => "deb http://download.bareos.org/bareos/release/${bareos::repo_flavour}/${bareos::repo_distro} /\n"
-          }
-          ~>
-          exec { 'bareos-key':
-            command     => "/usr/bin/wget -q http://download.bareos.org/bareos/release/${bareos::repo_flavour}/${bareos::repo_distro}/Release.key -O- | /usr/bin/apt-key add -",
-            refreshonly => true
-          }
-          ~>
-          exec { 'update-apt':
-            command     => '/usr/bin/apt-get update',
-            refreshonly => true,
+          apt::source { 'bareos':
+            location => "http://download.bareos.org/bareos/release/${bareos::repo_flavour}/${bareos::repo_distro}",
+            release  => '/',
+            repos    => ' ',
+            key      => '093BFBA2',
           }
         }
         default: { fail("${::hostname}: This module does not support operatingsystem ${::operatingsystem}") }
