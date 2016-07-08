@@ -172,7 +172,7 @@ class bareos::director {
     'DefaultJob':
       use_as_def      => true,
       level           => 'Incremental',
-      client          => $::bareos::director_name,
+      client          => $::bareos::client_name,
       fileset         => 'SelfTest',
       job_schedule    => 'WeeklyCycle',
       storage         => $::bareos::storage_name,
@@ -197,7 +197,7 @@ class bareos::director {
       type     => 'Restore',
       fileset  => 'SelfTest',
       storage  => $::bareos::storage_name,
-      client   => $::bareos::director_name,
+      client   => $::bareos::client_name,
       pool     => 'Default',
       messages => 'Standard',
       where    => '/tmp/bareos-restores';
