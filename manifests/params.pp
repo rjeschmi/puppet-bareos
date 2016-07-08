@@ -106,7 +106,7 @@ class bareos::params {
     default => '/etc/bareos/bareos-dir.conf',
   }
 
-  $director_template = ''
+  $director_template = 'bareos/bareos-dir.conf.erb'
   $director_source = ''
 
   $director_service = $::operatingsystem ? {
