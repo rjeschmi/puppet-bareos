@@ -192,7 +192,7 @@ class bareos::director {
       job_schedule    => 'WeeklyCycleAfterBackup',
       run_before_job  => '/usr/lib/bareos/scripts/make_catalog_backup.pl MyCatalog',
       run_after_job   => '/usr/lib/bareos/scripts/delete_catalog_backup',
-      write_bootstrap => "|/usr/bin/bsmtp -h localhost -f \"\(Bareos\) \" -s \"Bootstrap for Job %j\" root@localhost",
+      write_bootstrap => "|/usr/bin/bsmtp -h localhost -f \"(Bareos) \" -s \"Bootstrap for Job %j\" root@localhost",
       priority        => '11';
 
     # Standard Restore template, to be changed by Console program
