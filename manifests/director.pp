@@ -228,7 +228,6 @@ class bareos::director {
   }
 
   Bareos::Director::Client <<| |>>
-  Bareos::Director::Fileset <<| |>>
   Bareos::Director::Job <<| |>>
 
   bareos::director::storage { $::bareos::storage_name:
