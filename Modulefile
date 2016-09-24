@@ -1,7 +1,7 @@
-name 'netmanagers-bareos'
+name 'ohri-bareos'
 version '1.0.0'
 
-author 'Javier Bertoli'
+author 'Robert Schmidt'
 license 'Apache2'
 project_page 'http://www.netmanagers.com.ar'
 source 'https://github.com/netmanagers/puppet-bareos'

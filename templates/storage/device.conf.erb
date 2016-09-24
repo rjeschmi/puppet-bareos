@@ -6,6 +6,9 @@ Device {
 <% if @media_type != '' -%>
   MediaType = <%= @media_type %>
 <% end -%>
+<% if @device_options != '' -%>
+  Device Options = "<%= @device_options %>"
+<% end -%>
   ArchiveDevice = <%= @real_archive_device %>
   LabelMedia = <%= @label_media %>
   RandomAccess = <%= @random_access %>
