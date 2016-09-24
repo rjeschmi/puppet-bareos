@@ -6,6 +6,7 @@ define bareos::storage::device (
   $device_type     = 'File',
   $media_type      = '',
   $archive_device  = '',
+  $device_options  = '',
   $label_media     = 'yes',
   $random_access   = 'yes',
   $automatic_mount = 'yes',
